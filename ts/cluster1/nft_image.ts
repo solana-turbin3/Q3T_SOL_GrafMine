@@ -19,10 +19,13 @@ umi.use(signerIdentity(signer));
         //2. Convert image to generic file.
         //3. Upload image
 
-        // const image = ???
+        const image = await readFile("/Users/vadymkhremuchkov/Mine/Projects/rust/learning/turbin3-wba/solana-starter/assets/generug.png");
 
-        // const [myUri] = ??? 
-        // console.log("Your image URI: ", myUri);
+        const generic  = createGenericFile(image, "rug", {
+            contentType: "image/png"
+        });
+        const [myUri] = await umi.uploader.upload([generic]);
+        console.log("Your image URI: ", myUri);
     }
     catch(error) {
         console.log("Oops.. Something went wrong", error);
