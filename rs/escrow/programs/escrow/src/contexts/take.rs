@@ -89,10 +89,9 @@ impl<'info> Take<'info>{
     }
 
     pub fn withdraw_and_close(&mut self) -> Result<()> {
-        let seed: [u8; 8] = self.escrow.seed.to_le_bytes();
-        let bump: [u8; 1] = [self.escrow.bump];
-        // todo вомжно сид и бамп не правильно написано перепроверить
-        let signer_seeds: [&[&[u8]]; 1] = [&[b"escrow", self.maker.to_account_info().key.as_ref(), &seed, &bump]];
+        let seed = self.escrow.seed.to_le_bytes();
+        let bump = [self.escrow.bump];
+        let signer_seeds: [&[&[u8]]; 1] = [&[b"escrow", self.maker.to_account_info().key.as_ref(), &seed.as_ref(), &bump[..]]];
 
         let accounts: TransferChecked = TransferChecked {
             from: self.vault.to_account_info(),
